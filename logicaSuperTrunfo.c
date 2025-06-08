@@ -1,65 +1,114 @@
 #include <stdio.h>
 #include <string.h>
 
-// Estrutura que representa uma carta do Super Trunfo
+// Estrutura da carta
 struct Carta {
-    char estado[30];
-    char codigo[10];
-    char cidade[50];
+    char pais[50];
     int populacao;
     float area;
     float pib;
     int pontosTuristicos;
-
-    float densidadePopulacional;
-    float pibPerCapita;
+    float densidadeDemografica;
 };
 
-// Função para calcular os atributos derivados da carta
-void calcularIndicadores(struct Carta *carta) {
-    carta->densidadePopulacional = carta->populacao / carta->area;
-    carta->pibPerCapita = carta->pib / carta->populacao;
+// Calcula densidade demográfica
+void calcularDensidade(struct Carta *carta) {
+    carta->densidadeDemografica = carta->populacao / carta->area;
 }
 
-// Função para imprimir os dados de uma carta
+// Exibe dados de uma carta
 void exibirCarta(struct Carta carta, int numero) {
-    printf("Carta %d - %s (%s):\n", numero, carta.cidade, carta.estado);
+    printf("\nCarta %d - %s\n", numero, carta.pais);
     printf("População: %d\n", carta.populacao);
     printf("Área: %.2f km²\n", carta.area);
     printf("PIB: %.2f bilhões\n", carta.pib);
     printf("Pontos Turísticos: %d\n", carta.pontosTuristicos);
-    printf("Densidade Populacional: %.2f hab/km²\n", carta.densidadePopulacional);
-    printf("PIB per capita: %.2f\n\n", carta.pibPerCapita);
+    printf("Densidade Demográfica: %.2f hab/km²\n", carta.densidadeDemografica);
 }
 
 int main() {
-    // Cadastro das duas cartas manualmente
-    struct Carta carta1 = {"SP", "C001", "São Paulo", 12300000, 1521.11, 760000.00, 20};
-    struct Carta carta2 = {"RJ", "C002", "Rio de Janeiro", 6000000, 1182.30, 420000.00, 15};
+    // Cadastro fixo das duas cartas
+    struct Carta carta1 = {"Brasil", 214000000, 8515767.0, 1868000.0, 35};
+    struct Carta carta2 = {"Argentina", 45380000, 2780400.0, 491000.0, 20};
 
-    // Calcula indicadores derivados
-    calcularIndicadores(&carta1);
-    calcularIndicadores(&carta2);
+    // Calcula densidade
+    calcularDensidade(&carta1);
+    calcularDensidade(&carta2);
 
-    // Exibe as cartas cadastradas
-    printf("=== Cartas Cadastradas ===\n\n");
+    // Mostra cartas
+    printf("=== Cartas Cadastradas ===");
     exibirCarta(carta1, 1);
     exibirCarta(carta2, 2);
 
-    // Comparação com base no atributo "População"
-    printf("=== Comparação de Cartas (Atributo: População) ===\n\n");
+    // Menu interativo
+    int opcao;
+    printf("\n=== Escolha o atributo para comparar ===\n");
+    printf("1 - População\n");
+    printf("2 - Área\n");
+    printf("3 - PIB\n");
+    printf("4 - Pontos Turísticos\n");
+    printf("5 - Densidade Demográfica\n");
+    printf("Digite sua opção: ");
+    scanf("%d", &opcao);
 
-    printf("Carta 1 - %s (%s): %d\n", carta1.cidade, carta1.estado, carta1.populacao);
-    printf("Carta 2 - %s (%s): %d\n", carta2.cidade, carta2.estado, carta2.populacao);
+    printf("\n=== Resultado da Comparação ===\n");
 
-    // Determina o vencedor
-    if (carta1.populacao > carta2.populacao) {
-        printf("\nResultado: Carta 1 (%s) venceu!\n", carta1.cidade);
-    } else if (carta2.populacao > carta1.populacao) {
-        printf("\nResultado: Carta 2 (%s) venceu!\n", carta2.cidade);
-    } else {
-        printf("\nResultado: Empate!\n");
-    }
+    switch (opcao) {
+        case 1: // População
+            printf("Atributo: População\n");
+            printf("%s: %d\n", carta1.pais, carta1.populacao);
+            printf("%s: %d\n", carta2.pais, carta2.populacao);
+            if (carta1.populacao > carta2.populacao) {
+                printf("Resultado: %s venceu!\n", carta1.pais);
+            } else if (carta2.populacao > carta1.populacao) {
+                printf("Resultado: %s venceu!\n", carta2.pais);
+            } else {
+                printf("Resultado: Empate!\n");
+            }
+            break;
 
-    return 0;
-}
+        case 2: // Área
+            printf("Atributo: Área\n");
+            printf("%s: %.2f km²\n", carta1.pais, carta1.area);
+            printf("%s: %.2f km²\n", carta2.pais, carta2.area);
+            if (carta1.area > carta2.area) {
+                printf("Resultado: %s venceu!\n", carta1.pais);
+            } else if (carta2.area > carta1.area) {
+                printf("Resultado: %s venceu!\n", carta2.pais);
+            } else {
+                printf("Resultado: Empate!\n");
+            }
+            break;
+
+        case 3: // PIB
+            printf("Atributo: PIB\n");
+            printf("%s: %.2f bilhões\n", carta1.pais, carta1.pib);
+            printf("%s: %.2f bilhões\n", carta2.pais, carta2.pib);
+            if (carta1.pib > carta2.pib) {
+                printf("Resultado: %s venceu!\n", carta1.pais);
+            } else if (carta2.pib > carta1.pib) {
+                printf("Resultado: %s venceu!\n", carta2.pais);
+            } else {
+                printf("Resultado: Empate!\n");
+            }
+            break;
+
+        case 4: // Pontos Turísticos
+            printf("Atributo: Pontos Turísticos\n");
+            printf("%s: %d\n", carta1.pais, carta1.pontosTuristicos);
+            printf("%s: %d\n", carta2.pais, carta2.pontosTuristicos);
+            if (carta1.pontosTuristicos > carta2.pontosTuristicos) {
+                printf("Resultado: %s venceu!\n", carta1.pais);
+            } else if (carta2.pontosTuristicos > carta1.pontosTuristicos) {
+                printf("Resultado: %s venceu!\n", carta2.pais);
+            } else {
+                printf("Resultado: Empate!\n");
+            }
+            break;
+
+        case 5: // Densidade Demográfica (menor vence)
+            printf("Atributo: Densidade Demográfica\n");
+            printf("%s: %.2f hab/km²\n", carta1.pais, carta1.densidadeDemografica);
+            printf("%s: %.2f hab/km²\n", carta2.pais, carta2.densidadeDemografica);
+            if (carta1.densidadeDemografica < carta2.densidadeDemografica) {
+                printf
